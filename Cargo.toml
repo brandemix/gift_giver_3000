@@ -1,0 +1,6 @@
+[package]
+name = "gift_giver_3000"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
