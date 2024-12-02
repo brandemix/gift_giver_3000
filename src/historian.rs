@@ -53,10 +53,13 @@ pub fn compile(file: &PathBuf) -> (i64, i64) {
         .map(|(l1, l2)| (l1 - l2).abs())
         .sum();
 
-    let frequencies: HashMap<i64, i64> = locations.1.into_iter().fold(HashMap::new(), |mut acc, l| {
-        acc.entry(l).and_modify(|f| *f += 1).or_insert(1);
-        return acc;
-    });
+    let frequencies: HashMap<i64, i64> = locations.1.into_iter()
+        .fold(
+            HashMap::new(), 
+            |mut acc, l| {
+                acc.entry(l).and_modify(|f| *f += 1).or_insert(1);
+                return acc;
+            });
 
     let similarity_score2 = locations.0.iter()
         .map(|l| {
