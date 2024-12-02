@@ -2,8 +2,8 @@ use clap::{Parser, Subcommand};
 use historian::HistorianArgs;
 use trebuchet::TrebuchetArgs;
 
-mod trebuchet;
 mod historian;
+mod trebuchet;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
