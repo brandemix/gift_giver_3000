@@ -36,6 +36,7 @@ pub fn compile(file: &PathBuf) -> (i64, i64) {
     let file = std::fs::File::open(file).expect("file wasn't found.");
     let reader = BufReader::new(file);
 
+    /* Read in location ids from the two lists */
     let mut locations: (Vec<i64>, Vec<i64>) = reader
         .lines()
         .map(|line| {
@@ -48,9 +49,12 @@ pub fn compile(file: &PathBuf) -> (i64, i64) {
             )
         })
         .collect();
+
+    /* Sort our lists */
     locations.0.sort();
     locations.1.sort();
 
+    /* Compile our naive similarity score (part 1) */
     let similarity_score1 = locations
         .0
         .iter()
@@ -58,12 +62,14 @@ pub fn compile(file: &PathBuf) -> (i64, i64) {
         .map(|(l1, l2)| (l1 - l2).abs())
         .sum();
 
+    /* Compile frequency of each location id in list 2 */
     let frequencies: HashMap<i64, i64> =
         locations.1.into_iter().fold(HashMap::new(), |mut acc, l| {
             acc.entry(l).and_modify(|f| *f += 1).or_insert(1);
             return acc;
         });
 
+    /* Compile sophisticated similarity score (part 2) using compiled frequencies */
     let similarity_score2 = locations
         .0
         .iter()
