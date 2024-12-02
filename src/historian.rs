@@ -40,7 +40,7 @@ pub fn compile(file: &PathBuf) -> (i64, i64) {
         .lines()
         .map(|line| {
             let line = line.unwrap();
-            let parts: Vec<&str> = line.split("   ").collect();
+            let parts: Vec<&str> = line.split_whitespace().collect();
             println!("parts: {:?}", parts);
             (parts[0].parse::<i64>().unwrap(), parts[1].parse::<i64>().unwrap())
         }).collect();
@@ -48,24 +48,21 @@ pub fn compile(file: &PathBuf) -> (i64, i64) {
         locations.1.sort();
 
     
-    let mut similarity_score1 = 0;
-    for i in 0..locations.0.len() {
-        let diff: i64 = (locations.0[i] - locations.1[i]).abs();
-        similarity_score1 += diff;
-    }
+    let similarity_score1 = locations.0.iter()
+        .zip(locations.1.iter())
+        .map(|(l1, l2)| (l1 - l2).abs())
+        .sum();
 
-    let mut frequencies: HashMap<i64, i64> = HashMap::new();
-    for i in locations.1.iter() {
-        frequencies.entry(*i).and_modify(|frequency| *frequency += 1).or_insert(1);
-    }
+    let frequencies: HashMap<i64, i64> = locations.1.into_iter().fold(HashMap::new(), |mut acc, l| {
+        acc.entry(l).and_modify(|f| *f += 1).or_insert(1);
+        return acc;
+    });
 
-    println!("frequences: {:?}", frequencies);
-
-    let mut similarity_score2 = 0;
-    for i in locations.0.iter() {
-        let frequency = frequencies.get(i).or(Some(&0)).unwrap();
-        similarity_score2 += i * frequency
-    }
+    let similarity_score2 = locations.0.iter()
+        .map(|l| {
+            l * frequencies.get(l).or(Some(&0)).unwrap()
+        })
+        .sum();
 
     return (similarity_score1, similarity_score2);
 }
