@@ -1,7 +1,9 @@
 use clap::{Parser, Subcommand};
+use historian::HistorianArgs;
 use trebuchet::TrebuchetArgs;
 
 mod trebuchet;
+mod historian;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -14,6 +16,7 @@ struct App {
 #[derive(Subcommand)]
 enum Commands {
     Trebuchet(TrebuchetArgs),
+    Historian(HistorianArgs),
 }
 
 fn main() {
@@ -22,6 +25,9 @@ fn main() {
     match &cli.command {
         Some(Commands::Trebuchet(args)) => {
             println!("'trebuchet' invoked: {}", args.run());
+        }
+        Some(Commands::Historian(args)) => {
+            println!("'historian' invoked: {}", args.run())
         }
         None => {
             println!("Default subcommand");
