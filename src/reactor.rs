@@ -60,15 +60,13 @@ pub fn verify(report_file: &PathBuf) -> (i64, i64) {
 }
 
 pub fn verify_report_dampen(levels: Vec<i64>) -> bool {
-    (0..levels.len()).any(|i| {
-        let l: Vec<&i64> = levels[0..i].iter().chain(&levels[i + 1..]).collect();
-        println!("{:?}", l);
-
-        verify_report(l)
-    })
+    /* Search sublists by removing random element */
+    (0..levels.len()).any(|i| verify_report(levels[0..i].iter().chain(&levels[i + 1..]).collect()))
 }
 
 pub fn verify_report(levels: Vec<&i64>) -> bool {
+    /* - The levels are either all increasing or all decreasing.
+     * - Any two adjacent levels differ by at least one and at most three. */
     let mut ord: Result<i64, ()> = Ok(0);
     for i in 1..levels.len() {
         match ord {
