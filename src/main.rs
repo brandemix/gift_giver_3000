@@ -1,8 +1,10 @@
 use clap::{Parser, Subcommand};
 use historian::HistorianArgs;
+use reactor::ReactorArgs;
 use trebuchet::TrebuchetArgs;
 
 mod historian;
+mod reactor;
 mod trebuchet;
 
 #[derive(Parser)]
@@ -17,6 +19,7 @@ struct App {
 enum Commands {
     Trebuchet(TrebuchetArgs),
     Historian(HistorianArgs),
+    Reactor(ReactorArgs),
 }
 
 fn main() {
@@ -28,6 +31,9 @@ fn main() {
         }
         Some(Commands::Historian(args)) => {
             println!("'historian' invoked: {}", args.run())
+        }
+        Some(Commands::Reactor(args)) => {
+            println!("'reactor' invoked: {}", args.run());
         }
         None => {
             println!("Default subcommand");
