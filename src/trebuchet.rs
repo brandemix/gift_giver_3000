@@ -2,7 +2,7 @@ use clap::{Args, Subcommand};
 use std::path::PathBuf;
 
 #[derive(Args)]
-pub struct TrebuchetArgs {
+pub struct Trebuchet {
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -17,7 +17,7 @@ struct CalibrateArgs {
     doc_path: Option<PathBuf>,
 }
 
-impl TrebuchetArgs {
+impl Trebuchet {
     pub fn run(&self) -> String {
         match &self.command {
             Some(Commands::Calibrate(args)) => {

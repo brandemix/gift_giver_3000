@@ -1,10 +1,10 @@
-use clap::{Args, Subcommand};
+use clap::{Args, Parser, Subcommand};
 use std::collections::HashMap;
 use std::io::BufRead;
 use std::{io::BufReader, path::PathBuf};
 
-#[derive(Args)]
-pub struct HistorianArgs {
+#[derive(Parser)]
+pub struct Historian {
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -19,7 +19,7 @@ struct CompileArgs {
     doc_path: Option<PathBuf>,
 }
 
-impl HistorianArgs {
+impl Historian {
     pub fn run(&self) -> String {
         match &self.command {
             Some(Commands::Compile(args)) => {

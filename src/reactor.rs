@@ -1,4 +1,4 @@
-use clap::{Args, Subcommand};
+use clap::{Args, Parser, Subcommand};
 use std::io::BufRead;
 use std::{io::BufReader, path::PathBuf};
 
@@ -6,8 +6,8 @@ use std::{io::BufReader, path::PathBuf};
  * codename: Red-Nosed reactor
  */
 
-#[derive(Args)]
-pub struct ReactorArgs {
+#[derive(Parser)]
+pub struct Reactor {
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -22,7 +22,7 @@ struct VerifyArgs {
     doc_path: Option<PathBuf>,
 }
 
-impl ReactorArgs {
+impl Reactor {
     pub fn run(&self) -> String {
         match &self.command {
             Some(Commands::Verify(args)) => {
@@ -30,7 +30,7 @@ impl ReactorArgs {
                 let result = verify(doc_path);
                 format!("'verify' called. result: {:?}", result)
             }
-            None => String::from("Red-Nosed reactor: 107°C"),
+            None => String::from("Red-Nosed reactor: 267°C"),
         }
     }
 }

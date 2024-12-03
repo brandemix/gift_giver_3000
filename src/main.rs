@@ -1,11 +1,11 @@
-use clap::{Parser, Subcommand};
-use historian::HistorianArgs;
-use reactor::ReactorArgs;
-use trebuchet::TrebuchetArgs;
-
 mod historian;
 mod reactor;
 mod trebuchet;
+
+use clap::{Parser, Subcommand};
+use historian::Historian;
+use reactor::Reactor;
+use trebuchet::Trebuchet;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -16,24 +16,24 @@ struct App {
 }
 
 #[derive(Subcommand)]
-enum Commands {
-    Trebuchet(TrebuchetArgs),
-    Historian(HistorianArgs),
-    Reactor(ReactorArgs),
+pub enum Commands {
+    Trebuchet(Trebuchet),
+    Historian(Historian),
+    Reactor(Reactor),
 }
 
 fn main() {
     let cli = App::parse();
 
     match &cli.command {
-        Some(Commands::Trebuchet(args)) => {
-            println!("'trebuchet' invoked: {}", args.run());
+        Some(Commands::Trebuchet(trebuchet)) => {
+            println!("'trebuchet' invoked: {}", trebuchet.run());
         }
-        Some(Commands::Historian(args)) => {
-            println!("'historian' invoked: {}", args.run())
+        Some(Commands::Historian(historian)) => {
+            println!("'historian' invoked: {}", historian.run());
         }
-        Some(Commands::Reactor(args)) => {
-            println!("'reactor' invoked: {}", args.run());
+        Some(Commands::Reactor(reactor)) => {
+            println!("'reactor' invoked: {}", reactor.run());
         }
         None => {
             println!("Default subcommand");
