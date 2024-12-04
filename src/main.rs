@@ -1,9 +1,11 @@
 mod historian;
+mod memory;
 mod reactor;
 mod trebuchet;
 
 use clap::{Parser, Subcommand};
 use historian::Historian;
+use memory::Memory;
 use reactor::Reactor;
 use trebuchet::Trebuchet;
 
@@ -20,6 +22,7 @@ pub enum Commands {
     Trebuchet(Trebuchet),
     Historian(Historian),
     Reactor(Reactor),
+    Memory(Memory),
 }
 
 fn main() {
@@ -34,6 +37,9 @@ fn main() {
         }
         Some(Commands::Reactor(reactor)) => {
             println!("'reactor' invoked: {}", reactor.run());
+        }
+        Some(Commands::Memory(memory)) => {
+            println!("'memory' invoked: {}", memory.run())
         }
         None => {
             println!("Default subcommand");
