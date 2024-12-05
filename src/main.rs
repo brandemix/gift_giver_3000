@@ -1,5 +1,6 @@
 mod historian;
 mod memory;
+mod printer;
 mod puzzles;
 mod reactor;
 mod trebuchet;
@@ -7,6 +8,7 @@ mod trebuchet;
 use clap::{Parser, Subcommand};
 use historian::Historian;
 use memory::Memory;
+use printer::Printer;
 use puzzles::Puzzles;
 use reactor::Reactor;
 use trebuchet::Trebuchet;
@@ -26,6 +28,7 @@ pub enum Commands {
     Reactor(Reactor),
     Memory(Memory),
     Puzzles(Puzzles),
+    Printer(Printer),
 }
 
 fn main() {
@@ -46,6 +49,9 @@ fn main() {
         }
         Some(Commands::Puzzles(puzzles)) => {
             println!("{}", puzzles.run())
+        }
+        Some(Commands::Printer(printer)) => {
+            println!("{}", printer.run())
         }
         None => {
             println!("Default subcommand");
